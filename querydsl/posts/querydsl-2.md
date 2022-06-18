@@ -118,7 +118,7 @@ BooleanBuilder을 만들어서 조건에 따라 and, or로 추가하여 만든 �
 <br>
 
 ### Where 다중 파라미터 사용
-앞서 설명했듯이 where문에서는 and 대신 쉼표(,)를 사용할 수 있다. 여기서 핵심은 __쉼표를 사용할 경우 null을 무시한다.__ 예를 들면 where(null, member.~~~ ) 이면 null은 무시되고 member.~~ 만 조건으로 들어가는 것이다. 이것을 활용하면 코드를 매우 간단하게 만들 수 있다.
+앞서 설명했듯이 where문에서는 and 대신 쉼표(,)를 사용할 수 있다. 여기서 핵심은 __쉼표를 사용할 경우 null을 무시한다.__ 예를 들면 where(null, member.XX ) 이면 null은 무시되고 member.XX 만 조건으로 들어가는 것이다. 이것을 활용하면 코드를 매우 간단하게 만들 수 있다.
 
 ```java
 @Test
