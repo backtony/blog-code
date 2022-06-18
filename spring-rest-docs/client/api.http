@@ -1,0 +1,30 @@
+# 단일 조회
+GET {{host}}/api/members/1
+Content-Type: application/json
+
+###
+
+# member 생성
+POST {{host}}/api/members
+Content-Type: application/json
+
+{
+  "email": "insert@naver.com",
+  "name" : "insert"
+}
+
+###
+
+# member 수정
+PATCH {{host}}/api/members/1
+Content-Type: application/json
+
+{
+  "name" : "change"
+}
+
+###
+
+# Member 페이징
+GET {{host}}/api/members?page=0&size=2
+Content-Type: application/json

@@ -1,0 +1,54 @@
+<!-- config : XML 구성의 루트 요소이다. -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.ehcache.org/v3"
+        xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd">
+
+    <!-- 캐시 설정 시작 -->
+    <cache alias="memberInfoResponseDto"> <!-- @Cacheable의 value, 캐시 이름 -->
+        <key-type>java.lang.Long</key-type> <!-- @Cacheable의 key, 캐시 키 타입, 기본 값은 java.lang.Object -->
+        <!-- @Cacheable의 return 타입 class 위치, 기본 값은 java.lang.Object -->
+        <value-type>com.example.springehcache.member.application.dto.MemberInfoResponseDto</value-type>
+
+        <!-- ttl 설정 -->
+        <expiry>
+            <ttl unit="seconds">30</ttl>
+        </expiry>
+        <!-- unit은 days, hours, minutes, seconds, millis, micros, nanos 를 세팅할 수 있다. -->
+
+        <!-- Cache의 리스너 클래스를 등록하는 설정, 리스너가 필요 없다면 등록하지 않아도 된다. -->
+        <listeners>
+            <listener>
+                <!-- 리스너 클래스 위치 -->
+                <class>com.example.springehcache.common.CacheEventLogger</class>
+
+                <!-- 비동기 방식 , 반대 동기는 SYNCHRONOUS -->
+                <event-firing-mode>ASYNCHRONOUS</event-firing-mode>
+                <!-- 순서 보장 X, 반대는 ORDERED -->
+                <event-ordering-mode>UNORDERED</event-ordering-mode>
+
+                <!-- EVICTED, EXPIRED, REMOVED, CREATED, UPDATED-->
+                <!-- 생성과 만료 시 이벤트 발생 -->
+                <events-to-fire-on>CREATED</events-to-fire-on>
+                <events-to-fire-on>EXPIRED</events-to-fire-on>
+            </listener>
+        </listeners>
+
+        <!-- resources는 캐시 데이터의 저장 공간과 용량을 지정한다. 만약 힙 메모리만 사용한다면 <heap> 요소만으로 대체할 수 있다.  -->
+        <resources>
+            <!-- heap은 JVM 힙 메모리에 캐시를 저장하도록 세팅하는 요소
+            entries는 항목이다. 100개의 항목을 힙에 저장할 수 있다는 뜻
+            100개가 넘어가면 가장 오랫동안 참조하지 않은 것을 삭제하고 새로운 것을 저장(LRU) -->
+            <heap unit="entries">100</heap>
+
+            <!-- offheap은 JVM 힙 메모리 외부의 메모리에 캐시를 저장하도록 세팅하는 요소이다. -->
+            <offheap unit="MB">10</offheap>
+            <!-- B, KB, MB, GB, TB -->
+
+            <!-- Disk 메모리, LFU strategy-->
+            <!-- persistent="false" shutdown 되면 disk를 비워버립니다.-->
+            <!-- persistent="true" shutdown 되도 disk에 보관되고 JVM이 다시 뜨면 load it back 합니다.-->
+            <!-- <disk unit="MB" persistent="false">5</disk> -->
+        </resources>
+    </cache>
+
+</config>

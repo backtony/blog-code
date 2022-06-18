@@ -1,0 +1,23 @@
+spring:
+  profiles:
+    include:
+      - oauth
+      - jwt
+
+  redis:
+    lettuce:
+      pool:
+        min-idle: 0
+        max-idle: 8
+        max-active: 8
+    port: 16379
+    host: localhost
+
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+

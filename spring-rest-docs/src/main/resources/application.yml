@@ -1,0 +1,18 @@
+spring:
+  jpa:
+    database: h2
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    open-in-view: false
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - "*"
+
+logging:
+  level:
+    root: info
+

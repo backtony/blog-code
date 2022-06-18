@@ -1,0 +1,34 @@
+{
+  "properties" : {
+    "age" : {"type" : "keyword"},
+    "id" : {"type" : "keyword"},
+    "name" : {"type" : "keyword"},
+    "nickname" : {"type" : "text"},
+    "status" : {"type" : "keyword"},
+    "zone" : {
+      "properties" : {
+        "id" : {"type" : "long"},
+        "mainZone" : {
+          "type" : "text",
+          "fields" : {
+            "keyword" : {"type" : "keyword","ignore_above" : 256}
+          }
+        },
+        "subZone" : {
+          "type" : "text",
+          "fields" : {
+            "keyword" : {"type" : "keyword","ignore_above" : 256}
+          }
+        }
+      }
+    },
+    "description" : {
+      "type" : "text",
+      "analyzer" : "korean"
+    },
+    "createdAt" : {
+      "type" : "date",
+      "format": "uuuu-MM-dd'T'HH:mm:ss.SSS||epoch_millis"
+    }
+  }
+}

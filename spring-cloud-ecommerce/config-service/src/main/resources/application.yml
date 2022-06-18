@@ -1,0 +1,31 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-service
+  rabbitmq:
+    host: 127.0.01
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/backtony/msa-remote-config-yml
+          default-label: master # 원격 리포지토리 default 브랜치 이름
+#          private 리포지토리인 경우
+#          username: [username]
+#          password: [password]
+
+# busrefresh -> config server에 변경 요청사항이 들어오게 되면
+# rabbitmq에 요청사항을 받았음을 통보하고 rabbitmq에 등록된 다른 서비스에 push 해주게 된다.
+# 따라서 actuator의 refresh만 사용했을 때는 여러 곳에서 다 refresh 해줬어야만 했지만
+# bus-amqp의존성을 추가해주고 rabbitmq를 사용함으로써 한 곳에서
+# busrefresh를 날리면 rabbitmq에 연결된 다른 곳들도 전부 refresh 된다.
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, busrefresh

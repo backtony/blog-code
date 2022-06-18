@@ -1,0 +1,18 @@
+# 여러 개의 서비스에 각각의 포트 번호를 부여하긴 번거로움
+server:
+  port: 0 # 매번 랜덤하게 사용 가능한 포트 번호 부여
+
+spring:
+  application:
+    name: user-service
+
+eureka:
+  instance:
+    # 표기되는 규칙 변경
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true # 유레카 서버에 등록
+    fetch-registry: true # 유레카 서버로부터 인스턴스들의 정보를 주기적으로 받겠다는 설
+    service-url: # 유레카 서버의 주소
+      # Eureka Client로써 Eureka Server에 등록하기 위해 사용되는 Endpoint가 http://localhost:8761/eureka 이므로 뒤에 /eureka를 붙여줘야 한다.
+      defaultZone: http://127.0.0.1:8761/eureka

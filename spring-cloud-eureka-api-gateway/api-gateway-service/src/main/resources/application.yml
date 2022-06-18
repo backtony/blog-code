@@ -1,0 +1,40 @@
+server:
+  port: 8000
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+spring:
+  application:
+    name: apigateway-service # 애플리케이션 이름, 임의로 작성해도 무관
+  cloud:
+    gateway:
+      default-filters: # 모든 라우팅에 적용하는 필터
+        - name: GlobalFilter # 적용할 필터의 클래스명
+          args: # 필터 클래스의 Config 클래스 필드값 정보 세팅
+            baseMessage: Spring Cloud Gateway Logger
+            preLogger: true
+            postLogger: true
+      routes:
+        - id: first-service
+          predicates:
+            - Path=/first-service/**
+          uri: lb://MY-FIRST-SERVICE
+          filters:
+            - RewritePath=/first-service/(?<segment>.*), /$\{segment}
+        - id: second-service
+          predicates:
+            - Path=/second-service/**
+          uri: lb://MY-SECOND-SERVICE
+          # 특정 필터 적용
+          filters:
+            - RewritePath=/second-service/(?<segment>.*), /$\{segment}
+            - name: LoggingFilter
+              args:
+                baseMessage: hi there
+                preLogger: true
+                postLogger: true

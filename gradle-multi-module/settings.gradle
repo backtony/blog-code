@@ -1,0 +1,5 @@
+rootProject.name = 'gradle-multi-module'
+include 'module-batch'
+include 'module-core'
+include 'module-web'
+

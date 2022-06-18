@@ -1,0 +1,10 @@
+# bootstrap.yml은 application.yml 보다 우선순위가 높은 설정 파일이다.
+
+spring:
+  cloud:
+    config:
+      # config server uri
+      uri: http://127.0.0.1:8888
+      # config server에서 불러오고자 하는 yml파일 명 XXX.yml 중에 XXX에 해당
+      name: ecommerce
+

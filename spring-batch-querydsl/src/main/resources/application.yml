@@ -1,0 +1,64 @@
+spring:
+  profiles:
+    active: h2
+
+---
+spring:
+  config:
+    activate:
+      on-profile: h2
+  h2:
+    console:
+      enabled: true
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+    hikari:
+      maximum-pool-size: 30
+      connection-timeout: 30000
+      validation-timeout: 100000
+      max-lifetime: 1800000
+      idle-timeout: 600000
+  batch:
+    job:
+      enabled: false
+
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
+
+---
+spring:
+  config:
+    activate:
+      on-profile: mysql
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/batch
+    username: 비밀
+    password: 비밀
+  batch:
+#    job:
+#      enabled: false
+    jdbc:
+      initialize-schema: always
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      format_sql: true
+      ddl-auto: update
+    properties:
+      hibernate.default_batch_fetch_size: 1000
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace

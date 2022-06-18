@@ -1,0 +1,19 @@
+
+spring:
+  h2:
+    console:
+      enabled: true
+
+  jpa:
+    database: h2
+    hibernate:
+      ddl-auto: create-drop
+  datasource:
+    hikari:
+      driverClassName: org.h2.Driver
+      username: sa
+      password:
+      jdbc-url: jdbc:h2:mem:testdb
+  sql:
+    init:
+      mode: always

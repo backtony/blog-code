@@ -1,0 +1,56 @@
+spring:
+  profiles:
+    active: dev
+#    active: local  이 환경은 mysql 테스트 전용
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+  # AWS RDS(MySQL / Aurora)
+  datasource:
+    url: jdbc:mysql://각자의 url:3306/gjgs?rewriteBatchedStatements=true&profileSQL=true&logger=Slf4JLogger&maxQuerySizeToLog=999999
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: 아이디
+    password: 패스워드
+
+  jpa:
+    database: mysql
+    defer-datasource-initialization: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate.default_batch_fetch_size: 1000
+    open-in-view: false
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  # 설정들은 spring.io에서 doc에서 찾아서 공부해야한다.
+  # jpa설정
+  jpa:
+    hibernate: # hibernate 사용 설정
+      # 애플리케이션 실행 시점에 테이블을 다 지우고, 내가 가진 entity 정보를 보고 다시 테이블 자동 생성
+      # if exists drop table 해주고 다시 만들어준다고 보면 된다.
+      ddl-auto: create
+    properties: # property 사용 설정
+      hibernate: # hibernate property 설정
+        format_sql: true
+
+# 로그 레벨 설정
+logging:
+  level:
+    # hibernate 가 남기는 모든 로그가 debug모드로 설정
+    # jpa hibernate가 생성하는 sql이 로거를 통해서 찍히도록 하는 설정
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace # 실제 들어가는 파라미터값 찍어주는 설정

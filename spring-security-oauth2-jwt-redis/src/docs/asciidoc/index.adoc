@@ -1,0 +1,49 @@
+= spring-security-oauth2 API
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+== Overview
+include::overview.adoc[]
+
+== Auth API
+=== 소셜 로그인
+아래 URI로 요청을 보내면 각각 소셜 로그인에서 제공하는 로그인 페이지가 열립니다. 거기서 로그인 하면 서버로 리다이렉트되고 서버에서는 정보를 가지고 JWT 토큰을 만들어서 반환합니다.
+
+
+operation::docs-controller-test/소셜_로그인[snippets='http-request,path-parameters,http-response,response-fields']
+
+로그인 이후 전달받은 JWT 토큰은 서버와 통신할 때 사용됩니다.
+
+---
+
+=== 로그아웃
+==== 로그아웃 성공
+operation::auth-rest-controller-test/로그아웃[snippets='http-request,request-headers,http-response']
+
+==== 로그아웃 실패
+include::{snippets}/auth-rest-controller-test/유효하지_않은_토큰으로_로그아웃_시도/response-body.adoc[]
+include::{snippets}/auth-rest-controller-test/authorization헤더_없이_로그아웃_시도/response-body.adoc[]
+
+---
+
+=== 토큰 재발급
+
+인증이 필요한 API에 AccessToken으로 접근해서 LOGIN-401 코드 에러를 받으면 토큰이 만료된 것으로 토큰 재발급 API를 사용해서 토큰을 재발급 받고 다시 기존에 요청했던 API로 요청을 보내면 됩니다.
+
+만약 재발급에서도 LOGIN-401 코드 에러를 받으면 RefreshToken도 만료된 것으로 다시 소셜 로그인을 진행해야 합니다.
+
+==== 토큰 재발급 성공
+operation::auth-rest-controller-test/토큰_재발급[snippets='http-request,request-headers,http-response,response-fields']
+
+==== 토큰 재발급 실패
+include::{snippets}/auth-rest-controller-test/유효하지_않은_토큰으로_재발급_시도/response-body.adoc[]
+include::{snippets}/auth-rest-controller-test/authorization_헤더_없이_토큰_재발급_시도/response-body.adoc[]
+
+
+
+
+

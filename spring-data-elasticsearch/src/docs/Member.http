@@ -1,0 +1,47 @@
+# 엔티티 저장
+POST http://localhost:8080/api/members
+Content-Type: application/json
+
+< ./Member.json
+
+###
+
+# 엔티티 document로 전환해서 ES에 저장
+POST http://localhost:8080/api/memberDocuments
+
+###
+
+# 닉네임 검색
+GET http://localhost:8080/api/members/nickname?nickname=hongil1&size=10
+
+###
+
+# 나이 검색
+GET http://localhost:8080/api/members/age?age=27&size=10
+
+###
+
+# 조건 검색
+GET http://localhost:8080/api/members?id=1&name=홍길동1&nickname=hongil1&age=27&status=WAIT&zoneId=1&size=10
+
+###
+
+# 일부 조건만 넣어 검색
+GET http://localhost:8080/api/members?nickname=hongil1&age=27&size=10
+
+
+###
+
+# nickname으로 시작하는 것들 찾기
+GET http://localhost:8080/api/members/nickname/startwith?nickname=hongil&size=10
+
+###
+
+# description 매치되는 것 찾기
+GET http://localhost:8080/api/members/matches?description=안녕하세요&size=10
+
+###
+
+# 포함하는 것 찾기
+# 노리 분석기가 안녕하세요를 [안녕,하,시,어요] 로 토큰화 하기 때문에 안녕하세요로는 contains로 찾을 수 없다.
+GET http://localhost:8080/api/members/contains?description=안녕&size=10

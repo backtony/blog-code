@@ -1,0 +1,15 @@
+# 여러 개의 서비스에 각각의 포트 번호를 부여하긴 번거로움
+server:
+  port: 0 # 매번 랜덤하게 사용 가능한 포트 번호 부여
+
+spring:
+  application:
+    name: my-first-service
+
+eureka:
+  instance:
+    # 표기되는 규칙 변경
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka

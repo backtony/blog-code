@@ -1,0 +1,31 @@
+spring:
+  h2:
+    console:
+      enabled: true
+
+  datasource:
+    url: jdbc:mariadb://localhost:3307/test?rewriteBatchedStatements=true&profileSQL=true&logger=Slf4JLogger&maxQuerySizeToLog=999999
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: root
+    password: root
+
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 100
+        ## bulk insert 옵션 ##
+        # 정렬 옵션
+        order_inserts: true
+        order_updates: true
+        # 배치 개수 옵션
+        jdbc.batch_size: 100
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
+

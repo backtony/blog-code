@@ -1,0 +1,6 @@
+jwt:
+  secret-key: test
+  # 1시간
+  access-expiration-time: 3600000
+  # 24시간
+  refresh-expiration-time: 86400000
