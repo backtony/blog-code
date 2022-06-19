@@ -186,3 +186,9 @@
 
 ## Interview
 + [Backend Tech Interview](https://github.com/backtony/Backend_Interview_for_Beginner)
+
+
+<br>
+
+## Review
++ [2022 상반기 백엔드 개발 취업 회고](https://velog.io/@backtony/2022-%EC%83%81%EB%B0%98%EA%B8%B0-%EB%B0%B1%EC%97%94%EB%93%9C-%EA%B0%9C%EB%B0%9C-%EC%B7%A8%EC%97%85-%ED%9A%8C%EA%B3%A0)
