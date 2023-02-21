@@ -1,0 +1,27 @@
+<configuration debug="false">
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.AccessEventCompositeJsonEncoder">
+            <providers>
+                <pattern>
+                    <omitEmptyFields>true</omitEmptyFields>
+                    <pattern>
+                        {
+                        "date": "%date{yyyy-MM-dd'T'HH:mm:ssXXX}",
+                        "remoteAddr": "%a",
+                        "request": "%r",
+                        "user": "%reqAttribute{userId}",
+                        "httpXForwardedFor": "%i{X-Forwarded-For}",
+                        "referer": "%i{Referer}",
+                        "userAgent": "%i{User-Agent}",
+                        "byteSent": "#asLong{%B}",
+                        "duration": "#asDouble{%T}",
+                        "status": "%s",
+                        "contentType": "%responseHeader{Content-Type}"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+    </appender>
+    <appender-ref ref="console"/>
+</configuration>

@@ -1,1 +1,6 @@
+spring:
+  profiles:
+    active: local
 
+logging:
+  config: classpath:logging/logback-spring.xml

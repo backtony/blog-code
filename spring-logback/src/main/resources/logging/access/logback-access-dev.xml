@@ -1,0 +1,37 @@
+<configuration debug="false">
+    <appender name="access.file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/Users/user/Desktop/blog-code/spring-logback/src/main/resources/access.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/Users/user/Desktop/blog-code/spring-logback/src/main/resources/access.log.%d{yyyyMMdd}</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder class="net.logstash.logback.encoder.AccessEventCompositeJsonEncoder">
+            <providers>
+                <pattern>
+                    <omitEmptyFields>true</omitEmptyFields>
+                    <pattern>
+                        {
+                        "date": "%date{yyyy-MM-dd'T'HH:mm:ssXXX}",
+                        "remoteAddr": "%a",
+                        "request": "%r",
+                        "user": "%reqAttribute{userId}",
+                        "httpXForwardedFor": "%i{X-Forwarded-For}",
+                        "referer": "%i{Referer}",
+                        "userAgent": "%i{User-Agent}",
+                        "byteSent": "#asLong{%B}",
+                        "duration": "#asDouble{%T}",
+                        "status": "%s",
+                        "contentType": "%responseHeader{Content-Type}"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+    </appender>
+
+    <appender name="async" class="net.logstash.logback.appender.AccessEventAsyncDisruptorAppender">
+        <appender-ref ref="access.file"/>
+    </appender>
+
+    <appender-ref ref="async"/>
+</configuration>
