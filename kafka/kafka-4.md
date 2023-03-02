@@ -155,6 +155,7 @@ Executors를 사용하여 스레드 개수를 제어하는 스레드 풀을 생�
 작업 이후 스레드를 종료시켜야만 한다면 CachedThreadPool을 사용하려 스레드를 실행하면 됩니다.  
 
 ```java
+// runnable 인터페이스를 구현한 구현체를 Thread에 전달하면 스레드객체가 생성되고 start를 호출하면 정의한 동작이 수행된다.
 public class ConsumerWorker implements Runnable {
 
     private String recordValue;
@@ -195,9 +196,9 @@ public class ConsumerWithMultiWorkerThread {
         while (true) {
             ConsumerRecords<String, String> records = consumer.poll(Duration.ofSeconds(10));
             for (ConsumerRecord<String, String> record : records) {
-                // 각 레코드 마다 스레드 생성
+                // 작업이 명시된 클래스 생성
                 ConsumerWorker worker = new ConsumerWorker(record.value());
-                // 스레드 실행
+                // excutorService에 전달하여 동작하도록 한다.
                 executorService.execute(worker);
             }
         }
