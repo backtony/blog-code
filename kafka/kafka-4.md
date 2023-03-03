@@ -513,7 +513,7 @@ public class SpringProducerApplication implements CommandLineRunner {
     - Records 인스턴스 단위로 프로세싱, 매뉴얼 커밋을 사용하고 컨슈머 객체를 활용하고 싶은 경우
 
 메뉴얼 커밋을 사용할 경우에는 Acknowledging이 붙은 리스너를 사용하고, Kafka Cosumer 인스턴스에 직접 접근하여 컨트롤하고 싶다면 ConsumerAware가 붙은 리스너를 사용하면 됩니다.  
-메뉴얼 커밋이란 자동 머킷이 아닌 개발자가 명시적으로 커밋하는 방식을 의미합니다.     
+메뉴얼 커밋이란 자동 이 아닌 개발자가 명시적으로 커밋하는 방식을 의미합니다.     
 <br>
 
 스프링 카프카에서는 커밋이라고 부르지 않고 AckMode라고 부릅니다.  
