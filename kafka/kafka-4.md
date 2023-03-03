@@ -499,18 +499,17 @@ public class SpringProducerApplication implements CommandLineRunner {
     - Records 인스턴스 단위로 프로세싱, 오토 커밋 또는 컨슈머 컨테이너의 AckMode를 사용하는 경우
 
 스프링 카프카 컨슈머의 기본 리스너 타입은 레코드 리스너이고 아래와 같이 파생된 여러 형태가 있습니다.  
-+ AcknowledgingMessageListener
-    - Record 인스턴스 단위 프로세싱, 매뉴얼 커밋을 사용하는 경우
-+ ConsumerAwareMessageListener
-    - Record 인스턴스 단위 프로세싱, 컨슈머 객체를 활용하고 싶은 경우
-+ AcknowledgingConsumerAwareMessageListener
-    - Record 인스턴스 단위 프로세싱, 매뉴얼 커밋을 사용하고 컨슈머 객체를 활용하고 싶은 경우
-+ BatchAcknowledgingMessageListener
-    - Records 인스턴스 단위 프로세싱, 매뉴얼 커밋을 사용하는 경우
-+ BatchConsumerAwareMessageListener
-    - Records 인스턴스 단위로 프로세싱, 컨슈머 객체를 활용하고 싶은 경우
-+ BatchAcknowledgingConsumerAwareMessageListener
-    - Records 인스턴스 단위로 프로세싱, 매뉴얼 커밋을 사용하고 컨슈머 객체를 활용하고 싶은 경우
++ Record 타입
+    + MessageListener : Record 인스턴스 단위로 프로세셍, 오토커밋 또는 컨슈머 컨테이너의 ackMode를 사용하는 경우
+    + AcknowledgingMessageListener : Record 인스턴스 단위로 프로세싱, 메뉴얼 커밋을 사용하는 경우
+    + ConsumerAwareMessageListener : Record 인스턴스 단위로 프로세싱, 컨슈머 객체를 활용하고 싶은 경우
+    + AcknowledgingConsumerAwareMessageListener : Record 인스턴스 단위로 프로세싱, 매뉴ㅜ얼 커밋을 사용하고 컨슈머 객체를 활용하고 싶은 경우
++ batch 타입
+    + BatchMessageListener : Records 인스턴스 단위로 프로세싱, 오토 커밋 또는 컨슈머 컨테이너의 AckMode를 사용하는 경우
+    + BatchAcknowledgingMessageListener : Records 인스턴스 단위로 프로세싱, 매뉴얼 커밋을 사용하는 경우
+    + BatchConsumerAwareMessageListener : Records 인스턴스 단위로 프로세싱, 컨슈머 객체를 활용하고 싶은 경우
+    + BatchAcknowledgingConsumerAwareMessageListener : Records 인스턴스 단위로 프로세싱, 매뉴얼 커밋을 사용하고 컨슈머 객체를 활용하고 싶은 경우
+
 
 메뉴얼 커밋을 사용할 경우에는 Acknowledging이 붙은 리스너를 사용하고, Kafka Cosumer 인스턴스에 직접 접근하여 컨트롤하고 싶다면 ConsumerAware가 붙은 리스너를 사용하면 됩니다.  
 메뉴얼 커밋이란 자동 이 아닌 개발자가 명시적으로 커밋하는 방식을 의미합니다.     
