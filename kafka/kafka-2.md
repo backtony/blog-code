@@ -512,7 +512,7 @@ commitSync 메서드는 브로커에 커밋 요청을 하고 커밋이 정상적
     - enable.auto.commit
         - 자동 커밋 여부 결정
         - 기본값 true
-	- auto.commit.interval.ms를 5ms로 설정했다면(기본값) 컨슈머는 poll을 호출할 때 가장 마지막 오프셋을 커밋합니다.
+	- auto.commit.interval.ms를 5ms로 설정했다면(기본값) 컨슈머는 poll을 호출하고 5ms후 레코드의 가장 마지막 오프셋을 커밋합니다.
     - auto.commit.interval.ms
         - 자동 커밋일 경우 오프셋 커밋 간격을 지정
         - 기본값 5000(5초)
