@@ -1,0 +1,37 @@
+spring:
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: validate
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    open-in-view: false
+  sql:
+    init:
+      mode: never
+
+database:
+  master:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url: jdbc:mysql://localhost:3306/master?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: root
+    maximum-pool-size: 5
+    minimum-idle: 5
+    connection-timeout: 5000
+
+  slave:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url: jdbc:mysql://localhost:3306/slave?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: root
+    maximum-pool-size: 5
+    minimum-idle: 5
+    connection-timeout: 5000
+    read-only: true
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
