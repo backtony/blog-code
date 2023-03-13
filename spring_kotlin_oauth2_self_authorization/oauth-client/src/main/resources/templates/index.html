@@ -1,0 +1,26 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>oauth client</title>
+    <script>
+        function token(){
+            fetch("/token")
+                window.location.href="/token"
+        }
+    </script>
+</head>
+<body>
+<div>OAuth2.0 Client</div>
+<div sec:authorize="isAnonymous()"><a th:href="@{/oauth2/authorization/self-oauth}">Login</a></div>
+<div sec:authorize="isAuthenticated()">
+    <p>login success</p>
+    <form action="#">
+        <p><input type="button" onclick="token()" value="show token" />
+    </form>
+    <p th:text="${token}">hh</p>
+</div>
+</body>
+</html>

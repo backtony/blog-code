@@ -1,0 +1,57 @@
+server:
+  port: 9000
+  shutdown: graceful
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/oauth?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: root
+  jpa:
+    show-sql: false
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    open-in-view: false
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+
+
+management:
+  endpoints:
+    web:
+      base-path: /monitor
+      path-mapping:
+        health: /health
+        prometheus: /metrics
+      exposure:
+        include: health, prometheus
+  health:
+    defaults.enabled: false
+    ping.enabled: true
+  endpoint:
+    health.probes.enabled: true
+    prometheus.enabled: true
+  server:
+    port: 9115
+
+
+# id값은 보통 uuid로 넣는것이 낫다.
+oauth-client:
+  album:
+    id: album
+    client-id: album-resource-server
+    client-secret: album-resource-server-secret
+  friend:
+    id: friend
+    client-id: friend-resource-server
+    client-secret: friend-resource-server-secret
+  client:
+    id: client
+    client-id: oauth2client
+    client-secret: oauth2client-secret

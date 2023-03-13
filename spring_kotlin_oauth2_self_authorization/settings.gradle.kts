@@ -1,0 +1,5 @@
+include("authorization-server")
+include("friend-resource-server")
+include("album-resource-server")
+include("domain")
+include("oauth-client")
