@@ -17,8 +17,11 @@ import org.springframework.test.context.TestConstructor.AutowireMode
 import java.util.*
 
 @SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS) // @test 메서드마다 test 클래스가 새로 생성되는 것을 방지 - 계속 재사용
-@TestConstructor(autowireMode = AutowireMode.ALL) // test에 인자 주입받을 때 사용
+// junit5는 기본적으로 @test를 실행할때마다 인스턴스를 개별로 하나씩 생성한다.
+// 이것을 클래스 단위로만 하나로 생성해서 상태를 공유하도록 하려면 아래 애노테이션을 사용한다.
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+// @autowired를 일일이 붙이지 않고 그냥 생성자 안에 넣어서 주입받아서 사용하고 싶으면 이렇게 쓰면 된다.
+@TestConstructor(autowireMode = AutowireMode.ALL)
 class SimpleJobTest(
     private val simpleJob: Job,
     private val batchDeviceRepository: BatchDeviceRepository,
