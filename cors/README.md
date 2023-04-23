@@ -1,4 +1,5 @@
 > nginx 설정 설명 : https://deeplify.dev/server/web/nginx-configuration
+
 > nginx 설정 주의사항 : https://nginxstore.com/blog/nginx/%EA%B0%80%EC%9E%A5-%EB%A7%8E%EC%9D%B4-%EC%8B%A4%EC%88%98%ED%95%98%EB%8A%94-nginx-%EC%84%A4%EC%A0%95-%EC%97%90%EB%9F%AC-10%EA%B0%80%EC%A7%80/
 cors
 
