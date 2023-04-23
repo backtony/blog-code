@@ -41,3 +41,9 @@ nginx -s stop
 # 데몬 말고 계속 보려면
 nginx -g "daemon off;"
 ```
+
+## demo
+> front -> nginx -> backend
+
+backend에서는 cors설정을 아무것도 하지 않고, nginx에서 모든 cors 설정을 처리한다.
+nginx의 자세한 내용은 주석으로 다 적어놨다.
