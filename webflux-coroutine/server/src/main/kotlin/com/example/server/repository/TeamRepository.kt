@@ -14,8 +14,8 @@ import java.time.LocalDateTime
 // service 단에서 asFlow로 변환시키면 문제 없음
 // repository단에서 해결하고 싶다면 asFlow.toList로 반환해야함
 // repository단에서 asFlow를 붙이면 아래와 같은 예외가 발생하는데 이유를 찾지 못함
-// service 단에서 asFlow를 붙이면 문제가 없으나 repository단에서 asFlow를 붙이면 아래 예외가 발생하는데 이유가 무엇일까..?
 // class reactor.core.publisher.FluxOnAssembly cannot be cast to class kotlinx.coroutines.flow.Flow
+// service 단에서 asFlow를 붙이면 문제가 없으나 repository단에서 asFlow를 붙이면 아래 예외가 발생하는데 이유가 무엇일까..?
 interface TeamRepositoryCustom {
     suspend fun findWithMemberById(teamId: Long): Team?
     suspend fun findAllWithMembers(): Flux<Team>

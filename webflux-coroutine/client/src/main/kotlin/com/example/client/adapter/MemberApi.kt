@@ -3,14 +3,16 @@ package com.example.client.adapter
 import com.example.client.dto.MemberRequest
 import com.example.server.dao.Member
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.reactive.asFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.reactor.awaitSingle
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.bodyToFlow
 
 // error handling
 // https://medium.com/nerd-for-tech/webclient-error-handling-made-easy-4062dcf58c49
+// https://codersee.com/spring-webclient-with-kotlin-coroutines/
 @Component
 class MemberApi(
     private val webClient: WebClient
@@ -105,11 +107,10 @@ class MemberApi(
             .build()
             .get()
             .retrieve()
-            .bodyToFlux(Member::class.java)
-            .onErrorResume {
+            .bodyToFlow<Member>()
+            .catch {
                 throw RuntimeException("member api findAll exception")
             }
-            .asFlow()
     }
 
     suspend fun findAllWithTeam(): Flow<Member> {
@@ -118,10 +119,9 @@ class MemberApi(
             .build()
             .get()
             .retrieve()
-            .bodyToFlux(Member::class.java)
-            .onErrorResume {
+            .bodyToFlow<Member>()
+            .catch {
                 throw RuntimeException("member api findAllWithTeam exception")
             }
-            .asFlow()
     }
 }
