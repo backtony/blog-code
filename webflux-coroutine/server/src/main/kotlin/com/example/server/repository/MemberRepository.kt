@@ -2,6 +2,8 @@ package com.example.server.repository
 
 import com.example.server.dao.Member
 import com.example.server.dao.Team
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.reactive.asFlow
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import org.springframework.r2dbc.core.DatabaseClient
@@ -11,7 +13,11 @@ import java.time.LocalDateTime
 
 interface MemberRepositoryCustom {
     suspend fun findWithTeamById(memberId: Long): Member?
-    suspend fun findAllWithTeam(): Flux<Member>
+
+    // flow(비동기적인 데이터 스트림)를 반환하는 함수는 suspend 키워드를 붙이지 않는다.
+    // cold stream으로 flow가 collect되는 시점에 실행된다.
+    // collect 하는 곳에서는 suspend 키워드가 붙어있어야 한다.(코루틴 스코프나 suspend 함수 내에서 collect되어야 한다.)
+    fun findAllWithTeam(): Flow<Member>
 }
 
 interface MemberRepository : CoroutineCrudRepository<Member, Long>, MemberRepositoryCustom
@@ -42,7 +48,7 @@ class MemberRepositoryCustomImpl(
             .awaitSingleOrNull()
     }
 
-    override suspend fun findAllWithTeam(): Flux<Member> {
+    override fun findAllWithTeam(): Flow<Member> {
         val query = """
                         SELECT m.*,
                         t.name AS team_name,
@@ -57,7 +63,8 @@ class MemberRepositoryCustomImpl(
         return client.sql(query)
             .fetch()
             .all()
-            .map { it -> memberWithTeamMapper(it) }
+            .flatMap { it -> Flux.just(memberWithTeamMapper(it)) }
+            .asFlow()
     }
 
     private fun memberWithTeamMapper(row: MutableMap<String, Any>): Member {

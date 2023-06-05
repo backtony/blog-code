@@ -54,16 +54,16 @@ class TeamService(
 
     @Transactional(readOnly = true)
     suspend fun findAllWithLeader(): Flow<Team> {
-        return teamRepository.findAllWithLeader().asFlow()
+        return teamRepository.findAllWithLeader()
     }
 
     @Transactional(readOnly = true)
     suspend fun findAllWithMembers(): Flow<Team> {
-        return teamRepository.findAllWithMembers().asFlow()
+        return teamRepository.findAllWithMembers()
     }
 
     @Transactional(readOnly = true)
     suspend fun findAllWithMembersAndLeader(): Flow<Team> {
-        return teamRepository.findAllWithMembersAndLeader().asFlow()
+        return teamRepository.findAllWithMembersAndLeader()
     }
 }

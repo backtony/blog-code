@@ -45,7 +45,7 @@ class MemberService(
 
     @Transactional(readOnly = true)
     suspend fun findMembersWithTeam(): Flow<Member> {
-        return memberRepository.findAllWithTeam().asFlow()
+        return memberRepository.findAllWithTeam()
     }
 }
 

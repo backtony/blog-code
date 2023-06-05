@@ -2,6 +2,7 @@ package com.example.server.repository
 
 import com.example.server.dao.Member
 import com.example.server.dao.Team
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.reactive.asFlow
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
@@ -10,24 +11,22 @@ import org.springframework.stereotype.Repository
 import reactor.core.publisher.Flux
 import java.time.LocalDateTime
 
-// asFlow로 반환한 경우 예외가 발생함.
-// service 단에서 asFlow로 변환시키면 문제 없음
-// repository단에서 해결하고 싶다면 asFlow.toList로 반환해야함
-// repository단에서 asFlow를 붙이면 아래와 같은 예외가 발생하는데 이유를 찾지 못함
-// class reactor.core.publisher.FluxOnAssembly cannot be cast to class kotlinx.coroutines.flow.Flow
-// service 단에서 asFlow를 붙이면 문제가 없으나 repository단에서 asFlow를 붙이면 아래 예외가 발생하는데 이유가 무엇일까..?
 interface TeamRepositoryCustom {
     suspend fun findWithMemberById(teamId: Long): Team?
-    suspend fun findAllWithMembers(): Flux<Team>
-    suspend fun findAllWithLeader(): Flux<Team>
-    suspend fun findAllWithMembersAndLeader(): Flux<Team>
+
+    // flow(비동기적인 데이터 스트림)를 반환하는 함수는 suspend 키워드를 붙이지 않는다.
+    // cold stream으로 flow가 collect되는 시점에 실행된다.
+    // collect 하는 곳에서는 suspend 키워드가 붙어있어야 한다.(코루틴 스코프나 suspend 함수 내에서 collect되어야 한다.)
+    fun findAllWithMembers(): Flow<Team>
+    fun findAllWithLeader(): Flow<Team>
+    fun findAllWithMembersAndLeader(): Flow<Team>
 }
 
 interface TeamRepository : CoroutineCrudRepository<Team, Long>, TeamRepositoryCustom
 
 @Repository
 class TeamRepositoryCustomImpl(
-    private val client: DatabaseClient
+    private val client: DatabaseClient,
 ) : TeamRepositoryCustom {
 
     override suspend fun findWithMemberById(teamId: Long): Team? {
@@ -54,7 +53,7 @@ class TeamRepositoryCustomImpl(
             .firstOrNull()
     }
 
-    override suspend fun findAllWithMembers(): Flux<Team> {
+    override fun findAllWithMembers(): Flow<Team> {
         val sql = """
             SELECT T.*,
             M.member_id AS member_id,
@@ -71,12 +70,11 @@ class TeamRepositoryCustomImpl(
             .bufferUntilChanged {
                 it["team_id"]
             }
-            .map { teamWithMemberMapper(it) }
-//            .asFlow()
-//            .toList()
+            .flatMap { it -> Flux.just(teamWithMemberMapper(it)) }
+            .asFlow()
     }
 
-    override suspend fun findAllWithLeader(): Flux<Team> {
+    override fun findAllWithLeader(): Flow<Team> {
         val sql = """
             SELECT T.*,            
             L.name AS leader_name,
@@ -90,12 +88,11 @@ class TeamRepositoryCustomImpl(
         return client.sql(sql)
             .fetch()
             .all()
-            .map { teamWithLeaderMapper(it) }
-//            .asFlow()
-//            .toList()
+            .flatMap { it -> Flux.just(teamWithLeaderMapper(it)) }
+            .asFlow()
     }
 
-    override suspend fun findAllWithMembersAndLeader(): Flux<Team> {
+    override fun findAllWithMembersAndLeader(): Flow<Team> {
         val sql = """
             SELECT T.*,
             M.member_id AS member_id,
@@ -116,7 +113,8 @@ class TeamRepositoryCustomImpl(
             .bufferUntilChanged {
                 it["team_id"]
             }
-            .map { teamWithLeaderAndMembersMapper(it) }
+            .flatMap { it -> Flux.just(teamWithLeaderAndMembersMapper(it)) }
+            .asFlow()
     }
 
     private fun teamWithLeaderAndMembersMapper(it: MutableList<MutableMap<String, Any>>): Team {
