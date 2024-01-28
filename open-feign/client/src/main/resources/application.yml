@@ -1,0 +1,24 @@
+spring:
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 25MB
+  cloud:
+    openfeign:
+      # https://docs.spring.io/spring-cloud-openfeign/docs/current/reference/html/#spring-cloud-feign-overriding-defaults
+      httpclient:
+        hc5:
+          enabled: true
+      okhttp:
+        enabled: true
+      client:
+        config:
+          article:
+            url: http://localhost:8081
+            connectTimeout: 3000
+            readTimeout: 3000
+            loggerLevel: basic
+
+logging:
+  level:
+    com.example.client.client.ArticleClient: DEBUG
