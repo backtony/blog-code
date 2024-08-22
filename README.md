@@ -1,3 +1,6 @@
+# 더이상 관리하지 않는 리포지토리 입니다.
+# 블로그 관련 코드 저장소는 https://github.com/backtony/blog 로 이관합니다.
+
 ## Blog-code
 
 [개인 블로그](https://velog.io/@backtony)에서 제공하는 예제 Code 와 개인적으로 공부한 내용을 정리하는 공간입니다.  
